@@ -962,17 +962,17 @@ case "$target" in
     if test "$rh_gxx_prog" = "no"; then EXTRA_GNU_DIR="/gnu"; fi
     case "$target_cpu" in
       i[[3456]]86*)
-        SYSC_TARGET="linux";;
+        SYSC_TARGET="";;
       x86_64*)
-        SYSC_TARGET="linux64";;
+        SYSC_TARGET="64";;
     esac;;
   *darwin*)
     LDFLAG_RPATH="-Wl,-rpath -Wl,"
     case "$target_cpu" in
       i[[3456]86*])
-        SYSC_TARGET="macosx";;
+        SYSC_TARGET="";;
       x86_64*)
-        SYSC_TARGET="macosx64";;
+        SYSC_TARGET="64";;
       powerpc)
         SYSC_TARGET="macosxppc";;
       powerpc64)
@@ -1003,7 +1003,7 @@ if test "$systemc_enab" != "no"; then
     AC_MSG_ERROR(Unable to determine the SystemC target architecture from $target)
   fi
   if test $lib_found = 0; then
-    SYSC_LIB_PREFIX="$systemc_path/lib-$SYSC_TARGET"
+    SYSC_LIB_PREFIX="$systemc_path/lib$SYSC_TARGET"
     AC_MSG_CHECKING([for $SYSC_LIB_PREFIX/libsystemc.a])
     if test -r "$SYSC_LIB_PREFIX/libsystemc.a"; then
       lib_found=1
@@ -1023,7 +1023,7 @@ if test "$systemc_enab" != "no"; then
     fi
   fi
   if test $lib_found = 0; then
-    SYSC_LIB_PREFIX="$systemc_path/lib-$SYSC_TARGET"
+    SYSC_LIB_PREFIX="$systemc_path/lib$SYSC_TARGET"
     AC_MSG_CHECKING("for $SYSC_LIB_PREFIX/libsystemc.so")
     if test -r "$SYSC_LIB_PREFIX/libsystemc.so"; then
       lib_found=1
@@ -1043,7 +1043,7 @@ if test "$systemc_enab" != "no"; then
     fi
   fi
   if test $lib_found = 0; then
-    SYSC_LIB_PREFIX="$systemc_path/lib-$SYSC_TARGET"
+    SYSC_LIB_PREFIX="$systemc_path/lib$SYSC_TARGET"
     AC_MSG_CHECKING("for $SYSC_LIB_PREFIX/libsystemc.dylib")
     if test -r "$SYSC_LIB_PREFIX/libsystemc.dylib"; then
       lib_found=1
@@ -1111,10 +1111,10 @@ dnl
 if test "$prefix" != "NONE"; then
   mkdir -p $prefix
   prefix=`cd $prefix; pwd`
-  libdir=$prefix/lib-$SYSC_TARGET
+  libdir=$prefix/lib$SYSC_TARGET
 elif test "$systemc_enab" = "no"; then
   prefix=`pwd`
-  libdir=$prefix/lib-$SYSC_TARGET
+  libdir=$prefix/lib$SYSC_TARGET
 else
   prefix=`cd $systemc_path; pwd`
   libdir=$SYSC_LIB_PREFIX
