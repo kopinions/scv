@@ -1,0 +1,4 @@
+*.log
+src/**/*.in
+*.cache/
+config/compile
